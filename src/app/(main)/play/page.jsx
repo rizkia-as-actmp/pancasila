@@ -2,9 +2,7 @@
 
 import { cetak } from "@/utils/cetak";
 import Image from "next/image";
-import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
-import { StatisticContext } from "../layout";
+import { useEffect, useState } from "react";
 
 function millisToMinutesAndSeconds(millis) {
   var minutes = Math.floor(millis / 60000);
@@ -18,16 +16,14 @@ export default function PlayPage() {
   const [totalScore, setTotalScore] = useState(0);
   const [time, setTime] = useState(10000);
 
-  let { lastTotalScore, setLastTotalScore } = useContext(StatisticContext);
-
   useEffect(() => {
     async function getQuestions() {
+      sessionStorage.setItem("totalScore", 0);
       const res = await fetch(`/api/questions  `, {
         next: { revalidate: 0 },
       }).then((r) => r.json());
       cetak(res);
       setQuestions(res.data.questions || []);
-      setLastTotalScore(0);
     }
     getQuestions();
   }, []);
@@ -35,8 +31,6 @@ export default function PlayPage() {
   useEffect(() => {
     function timer() {
       questions.length !== 0 && setTime(time - 1000);
-      setLastTotalScore((prevScore) => prevScore + 1);
-      console.log(lastTotalScore);
 
       if (questions.length !== 0 && time <= 0) {
         window.location.replace("/play/score/");
@@ -56,6 +50,8 @@ export default function PlayPage() {
 
     if (answer.toString() === currentQuestion.sila_number.toString()) {
       setTotalScore((prevScore) => prevScore + currentQuestion.score);
+      const prevScore = parseInt(sessionStorage.getItem("totalScore"));
+      sessionStorage.setItem("totalScore", prevScore + currentQuestion.score);
       setTime((prevTime) => prevTime + 10000);
     } else {
       setTime((prevTime) => prevTime - 5000);
@@ -112,8 +108,9 @@ export default function PlayPage() {
       <div
         style={{
           textAlign: "center",
-          fontSize: "24px",
-          marginBottom: "20px",
+          fontSize: "40px",
+          maxWidth: "1500px",
+          marginBottom: "100px",
           marginTop: "300px",
           lineHeight: "1.5",
         }}

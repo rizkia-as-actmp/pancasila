@@ -1,12 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useContext} from "react";
+import { useContext, useEffect, useState} from "react";
 import { StatisticContext } from "../../layout";
 
 export default function ScorePage() {
-  let { lastTotalScore } = useContext(StatisticContext);
-    console.log(lastTotalScore)
+    const [score, setScore] = useState(0)
+
+  useEffect(() => {
+    async function getScore() {
+            setScore(sessionStorage.getItem("totalScore"))
+    }
+    getScore();
+  }, []);
 
   return (
     <body
@@ -29,7 +35,7 @@ export default function ScorePage() {
       }}
     >
       <h1 style={{ fontSize: "60px", color: "black" }}>Permainan Berakhir</h1>
-      <h1 style={{ fontSize: "60px", color: "black" }}>{lastTotalScore}</h1>
+      <h1 style={{ fontSize: "60px", color: "black" }}>{score}</h1>
       <div
         className="container"
         style={{ textAlign: "center", marginTop: "220px" }}
