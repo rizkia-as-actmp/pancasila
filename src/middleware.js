@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
-import { headers } from "next/headers";
-import { errorResponse, failResponse } from "./utils/response";
-import { verifyToken } from "./lib/jwt";
+import { failResponse } from "./utils/response";
 
 export const authPayloadAccountId = "authorization_payload_account_id";
 

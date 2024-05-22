@@ -8,7 +8,11 @@ import { NextResponse } from "next/server";
 export async function GET() {
   let leaderboards;
   try {
-    leaderboards = await prisma.leaderboard.findMany();
+    leaderboards = await prisma.leaderboard.findMany({
+      orderBy: {
+        score: "desc",
+      },
+    });
   } catch (e) {
     if (e instanceof PrismaClientKnownRequestError) {
       if (e.code === "P2025") {

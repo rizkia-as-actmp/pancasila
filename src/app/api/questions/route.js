@@ -10,6 +10,7 @@ export async function GET() {
   try {
     questions = await prisma.question.findMany();
   } catch (e) {
+        console.log(e)
     if (e instanceof PrismaClientKnownRequestError) {
       if (e.code === "P2025") {
         return NextResponse.json(
