@@ -16,6 +16,41 @@ export default function PlayPage() {
   const [totalScore, setTotalScore] = useState(0);
   const [time, setTime] = useState(10000);
 
+  function onAnswerEventHandler(event) {
+    const answer = event.target.id;
+    const currentQuestion = questions[questionIndex];
+    const statistic = JSON.parse(sessionStorage.getItem("statistic"));
+    cetak(statistic);
+
+    statistic.question_answered++;
+
+    statistic.sila_occurences[currentQuestion.sila_number - 1] =
+      statistic.sila_occurences[currentQuestion.sila_number - 1] + 1;
+
+    if (answer.toString() === currentQuestion.sila_number.toString()) {
+      setTotalScore((prevScore) => prevScore + currentQuestion.score);
+
+      statistic.right_answer++;
+      statistic.sila_right_answer[currentQuestion.sila_number - 1] =
+        statistic.sila_right_answer[currentQuestion.sila_number - 1] + 1;
+
+      const prevScore = parseInt(sessionStorage.getItem("totalScore"));
+      sessionStorage.setItem("totalScore", prevScore + currentQuestion.score);
+
+      setTime((prevTime) => prevTime + 10000);
+    } else {
+      setTime((prevTime) => prevTime - 5000);
+    }
+
+    if (questionIndex < questions.length - 1) {
+      setQuestionIndex(questionIndex + 1);
+    } else {
+      window.location.replace("/play/score/");
+    }
+
+    sessionStorage.setItem("statistic", JSON.stringify(statistic));
+  }
+
   useEffect(() => {
     async function getQuestions() {
       sessionStorage.setItem("totalScore", 0);
@@ -26,6 +61,15 @@ export default function PlayPage() {
       setQuestions(res.data.questions || []);
     }
     getQuestions();
+
+    const statistic = {
+      question_answered: 0,
+      right_answer: 0,
+      sila_occurences: [0, 0, 0, 0, 0],
+      sila_right_answer: [0, 0, 0, 0, 0],
+    };
+
+    sessionStorage.setItem("statistic", JSON.stringify(statistic));
   }, []);
 
   useEffect(() => {
@@ -40,29 +84,6 @@ export default function PlayPage() {
 
     return () => clearInterval(interval);
   });
-
-  function onAnswerEventHandler(event) {
-    const answer = event.target.id;
-    const currentQuestion = questions[questionIndex];
-
-    console.log(answer);
-    console.log(currentQuestion.sila_number);
-
-    if (answer.toString() === currentQuestion.sila_number.toString()) {
-      setTotalScore((prevScore) => prevScore + currentQuestion.score);
-      const prevScore = parseInt(sessionStorage.getItem("totalScore"));
-      sessionStorage.setItem("totalScore", prevScore + currentQuestion.score);
-      setTime((prevTime) => prevTime + 10000);
-    } else {
-      setTime((prevTime) => prevTime - 5000);
-    }
-
-    if (questionIndex < questions.length - 1) {
-      setQuestionIndex(questionIndex + 1);
-    } else {
-      window.location.replace("/play/score/");
-    }
-  }
 
   return (
     <body
@@ -149,7 +170,7 @@ export default function PlayPage() {
           <Image
             onClick={onAnswerEventHandler}
             id="2"
-            src="/images/2.png"
+            src="/images/5.png"
             alt="Pilihan 2"
             width={150}
             height={150}
@@ -209,7 +230,7 @@ export default function PlayPage() {
           <Image
             onClick={onAnswerEventHandler}
             id="5"
-            src="/images/5.png"
+            src="/images/2.png"
             alt="Pilihan 5"
             width={150}
             height={150}

@@ -1,15 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useContext, useEffect, useState} from "react";
-import { StatisticContext } from "../../layout";
+import {  useEffect, useState } from "react";
 
 export default function ScorePage() {
-    const [score, setScore] = useState(0)
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     async function getScore() {
-            setScore(sessionStorage.getItem("totalScore"))
+      setScore(sessionStorage.getItem("totalScore"));
+      const statistic = sessionStorage.getItem("statistic");
+      console.log(statistic);
     }
     getScore();
   }, []);
@@ -60,6 +61,25 @@ export default function ScorePage() {
           Mulai Lagi
         </Link>
         <Link
+          href="/play/statistic"
+          className="btn"
+          style={{
+            textDecoration: "none",
+            margin: "50px",
+            padding: "15px 30px",
+            fontSize: "25px",
+            color: "#000000",
+            backgroundColor: "#d64833",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            transition: "background-color 0.3s, transform 0.3s",
+            display: "inline-block",
+          }}
+        >
+          Liat Hasil
+        </Link>
+        <Link
           href="/"
           className="btn"
           style={{
@@ -82,24 +102,3 @@ export default function ScorePage() {
     </body>
   );
 }
-
-
-//        <Link
-//          href="/"
-//          className="btn"
-//          style={{
-//            textDecoration: "none",
-//            margin: "50px",
-//            padding: "15px 30px",
-//            fontSize: "25px",
-//            color: "#000000",
-//            backgroundColor: "#d64833",
-//            border: "none",
-//            borderRadius: "5px",
-//            cursor: "pointer",
-//            transition: "background-color 0.3s, transform 0.3s",
-//            display: "inline-block",
-//          }}
-//        >
-//          Liat Hasil
-//        </Link>
