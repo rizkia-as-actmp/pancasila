@@ -4,27 +4,26 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function HomePage() {
-    const [playerName, setPlayerName] = useState("")
+    const [playerName, setPlayerName] = useState("");
 
     useEffect(() => {
-        const existingPlayerName = localStorage.getItem("PLAYER_NAME")
+        const existingPlayerName = localStorage.getItem("PLAYER_NAME");
         if (existingPlayerName) {
-            setPlayerName(existingPlayerName)
+            setPlayerName(existingPlayerName);
         }
-    }, [])
+    }, []);
 
     const playerNameInputOnChangeEventHandler = (event) => {
         if (playerName.length > 10) {
-            setPlayerName(event.target.value.slice(0,35))
+            setPlayerName(event.target.value.slice(0, 35));
         } else {
-            setPlayerName(event.target.value)
+            setPlayerName(event.target.value);
         }
-    }
-
+    };
 
     const playerNameInputOnBlurEventHandler = () => {
-        localStorage.setItem("PLAYER_NAME",playerName)
-    }
+        localStorage.setItem("PLAYER_NAME", playerName);
+    };
 
     return (
         <div
@@ -121,18 +120,31 @@ export default function HomePage() {
             <textarea
                 style={{
                     marginTop: "60px",
-                    textAlign : "center",
-                    overflowWrap: "break-word",
+                    textAlign: "center",
                     fontFamily: "'Inter'",
                     fontWeight: 900,
                     fontSize: "30px",
                     color: "#000000",
+                    minHeight: "70px",
+                    backgroundColor: "transparent",
+                    outline: "none",
+                    textDecoration: "none",
+                    border: "none",
+                    borderRadius: "5px",
+                    overflowX: "visible",
                     resize: "none",
-                    overflow: "auto",
                 }}
                 value={playerName}
                 onChange={playerNameInputOnChangeEventHandler}
-                onBlur={playerNameInputOnBlurEventHandler}
+                onBlur={(e) => {
+                    e.target.style.backgroundColor = "transparent";
+                    e.target.style.border = "none";
+                    playerNameInputOnBlurEventHandler(e);
+                }}
+                onFocus={(e) => {
+                    e.target.style.backgroundColor = "white";
+                    e.target.style.border = "5px solid black";
+                }}
             />
         </div>
     );
