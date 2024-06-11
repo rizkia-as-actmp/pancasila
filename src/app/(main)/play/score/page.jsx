@@ -14,7 +14,7 @@ export default function ScorePage() {
             const cs = sessionStorage.getItem("totalScore");
             const existingPlayerName = localStorage.getItem("PLAYER_NAME");
 
-            const record = await fetch(`http://localhost:3000/api/leaderboards`, {
+            const record = await fetch(`/api/leaderboards`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
