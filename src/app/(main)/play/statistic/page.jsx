@@ -10,7 +10,6 @@ export default function StatisticPage() {
     async function getStat() {
       const statistic = JSON.parse(sessionStorage.getItem("statistic"));
       setStat(statistic);
-      console.log(statistic);
     }
     getStat();
   }, []);

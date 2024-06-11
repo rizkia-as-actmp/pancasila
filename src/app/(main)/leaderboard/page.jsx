@@ -6,7 +6,6 @@ async function getLeaderboards() {
       next: { revalidate: 0 },
     });
 
-    // Check if response is okay
     if (!res.ok) {
       throw new Error(
         `Failed to fetch leaderboards: ${res.status} ${res.statusText}`,
@@ -15,13 +14,8 @@ async function getLeaderboards() {
 
     const data = await res.json();
 
-    // Log the response for debugging
-    console.log("Leaderboards data:", data);
-
     return data;
   } catch (error) {
-    console.error("Error fetching leaderboards:", error);
-    // Return a default structure or handle the error appropriately
     return { data: { leaderboards: [] } };
   }
 }
