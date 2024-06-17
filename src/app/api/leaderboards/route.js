@@ -41,10 +41,7 @@ export async function POST(request) {
   let newLb;
   try {
     const schema = Joi.object({
-      user_name: Joi.string()
-        .pattern(/^[A-Za-z\s']+$/)
-        .min(3)
-        .required(),
+      user_name: Joi.string().required(),
       score: Joi.number().min(0).integer().required(),
     });
 
