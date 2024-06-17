@@ -11,7 +11,7 @@ export default function HomePage() {
     if (existingPlayerName) {
       setPlayerName(existingPlayerName);
     }
-    if (existingPlayerName.length === 0) {
+    if (!existingPlayerName.length) {
       localStorage.setItem("PLAYER_NAME", "PlayerNumber1");
       setPlayerName("PlayerNumber1");
     }
