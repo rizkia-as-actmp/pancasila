@@ -11,10 +11,17 @@ export default function HomePage() {
     if (existingPlayerName) {
       setPlayerName(existingPlayerName);
     }
-    if (!existingPlayerName.length) {
-      localStorage.setItem("PLAYER_NAME", "PlayerNumber1");
-      setPlayerName("PlayerNumber1");
+
+    try {
+      if (existingPlayerName.length === 0) {
+        localStorage.setItem("PLAYER_NAME", "PlayerNumber1");
+        setPlayerName("PlayerNumber1");
+      }
+    } catch(e) {
+        localStorage.setItem("PLAYER_NAME", "PlayerNumber1");
+        setPlayerName("PlayerNumber1");
     }
+    
   }, []);
 
   const playerNameInputOnChangeEventHandler = (event) => {
